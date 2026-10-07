@@ -1,0 +1,341 @@
+<div id="bemerged-loading-overlay" aria-live="polite">Loading BeMerged…</div>
+    <div id="bemerged-ai-init-overlay" class="bemerged-ai-init-overlay hidden" aria-live="polite" aria-modal="true" role="dialog">
+      <div class="bemerged-ai-init-card">
+        <div class="bemerged-ai-init-title">Initializing AI Model</div>
+        <div id="bemerged-ai-init-text" class="bemerged-ai-init-text">Preparing AI runtime...</div>
+        <div class="bemerged-ai-init-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="bemerged-ai-init-progress-fill" class="bemerged-ai-init-progress-fill"></div>
+        </div>
+        <div id="bemerged-ai-init-percent" class="bemerged-ai-init-percent">Waiting for model status...</div>
+      </div>
+    </div>
+    <div id="app" class="bemerged-root">
+      <div id="bemerged-shell">
+        <div id="bemerged-main">
+          <div id="bemerged-top-row">
+            <div id="bemerged-score-slot">
+              <div id="score" class="stats-panel">
+                <div class="score-header">
+                  <h1 class="score-title">BeMerged <span class="score-beta-chip">Beta</span></h1>
+                </div>
+                <div class="score-grid">
+                  <div class="score-stat"><span class="score-stat-label">Time:</span> <strong id="hud-timer">00:00</strong></div>
+                  <div class="score-stat"><span class="score-stat-label">Total Merges:</span> <strong id="hud-merges">0</strong></div>
+                  <div class="score-stat"><span class="score-stat-label">Move #:</span> <strong id="hud-moves">0</strong></div>
+                  <div class="score-stat"><span class="score-stat-label">Total Shatters:</span> <strong id="hud-shatters">0</strong></div>
+                  <div class="score-stat"><span class="score-stat-label">Bosses Killed:</span> <strong id="hud-bosses-killed">0</strong></div>
+                  <div class="score-stat"><span class="score-stat-label">Total Shards:</span> <strong id="hud-score">0</strong></div>
+                </div>
+                <div id="hud-shards-row" class="shards-row"></div>
+                <div class="hidden">Mines: <strong id="hud-mines">0</strong></div>
+                <div class="hidden">Boss HP: <strong id="hud-boss-hp">-</strong></div>
+                <div class="hidden">Boss Wave: <strong id="hud-boss-wave">0</strong></div>
+                <div class="hidden">Boss Phase: <strong id="hud-boss-phase">-</strong></div>
+              </div>
+            </div>
+
+            <div id="bemerged-inventory-slot">
+              <div id="inventory-grid" class="inventory-grid"></div>
+            </div>
+          </div>
+
+          <div id="bemerged-middle-row">
+            <div id="bemerged-chart-slot">
+              <section class="chart-panel">
+                <img id="merge-chart-image" alt="BeMerged chart" />
+              </section>
+            </div>
+
+            <div id="bemerged-board-slot">
+              <section class="center-panel">
+                <div id="bemerged-game-host" class="game-host"></div>
+                <div id="bemerged-paused-overlay" class="bemerged-paused-overlay hidden" aria-live="polite">Paused</div>
+              </section>
+            </div>
+          </div>
+
+          <div id="bemerged-bottom-row">
+            <div id="bemerged-controls-slot">
+              <section id="settings-panel" class="settings-panel hidden">
+                <div class="settings-grid">
+                  <label>
+                    Orientation
+                    <select id="set-orientation">
+                      <option value="landscape">Landscape</option>
+                      <option value="portrait">Portrait</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    Auto-shatter rares
+                    <input id="set-auto-shatter-rares" type="checkbox" />
+                  </label>
+
+                  <label>
+                    Disable hints
+                    <input id="set-disable-hints" type="checkbox" />
+                  </label>
+
+                  <label>
+                    Hover for Descriptions
+                    <input id="set-hover-descriptions" type="checkbox" />
+                  </label>
+
+                  <label id="set-background-row">
+                    Background
+                    <select id="set-background"></select>
+                  </label>
+
+                  <label>
+                    Render quality
+                    <select id="set-render-quality">
+                      <option value="balanced">Balanced</option>
+                      <option value="high">High</option>
+                      <option value="max">Max</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    Delay (ms)
+                    <input id="ai-delay" type="number" min="0" max="5000" step="25" value="250" />
+                  </label>
+
+                  <label id="set-use-ai-autoplay-row">
+                    Enable AI Play
+                    <input id="set-use-ai-autoplay" type="checkbox" />
+                  </label>
+
+                  <label id="set-ai-restart-frequency-row" class="hidden">
+                    AI restart frequency (moves, 0 = off)
+                    <input id="set-ai-restart-frequency" type="number" min="0" max="20000" step="1" value="0" />
+                  </label>
+
+                  <label id="set-ai-restart-offset-row" class="hidden">
+                    AI restart offset (+moves)
+                    <input id="set-ai-restart-offset" type="number" min="0" max="5000" step="1" value="0" />
+                  </label>
+
+                  <div id="set-ai-cloud-usage-row" class="settings-note hidden" aria-live="polite"></div>
+
+                  <label id="set-ai-dev-controls-row" class="hidden">
+                    AI dev controls
+                    <input id="set-ai-dev-controls" type="checkbox" />
+                  </label>
+
+                  <label>
+                    Enable dev controls
+                    <input id="set-enable-dev-controls" type="checkbox" />
+                  </label>
+
+                  <div id="dev-controls-group" class="dev-controls-group hidden">
+                    <section class="settings-section">
+                      <h4>Parity Tuning</h4>
+                      <div id="set-parity-controls" class="settings-control-grid"></div>
+                    </section>
+                    <section class="settings-section">
+                      <h4>Unique Effect Tuning</h4>
+                      <div id="set-unique-effect-controls" class="settings-table-wrap"></div>
+                    </section>
+                  </div>
+                </div>
+                <button id="btn-settings-apply" type="button">Apply</button>
+              </section>
+
+              <div id="game-controls" class="controls-row">
+                <button id="btn-settings" type="button">Settings</button>
+                <button id="btn-rules" type="button">Rules</button>
+                <button id="btn-ai-toggle" type="button">Autoplay</button>
+                <button id="btn-shuffle" type="button">Shuffle (3)</button>
+                <button id="btn-pause" type="button">Pause</button>
+                <button id="btn-restart" type="button">Restart</button>
+                <button id="btn-fullscreen" type="button">Fullscreen</button>
+                <button id="btn-hint" type="button">Hint</button>
+                <button id="btn-toggle-chart" type="button">Hide Chart</button>
+                <span id="hud-ai-status">Idle</span>
+              </div>
+              <div id="bemerged-hover-card" class="bemerged-hover-card hidden" aria-live="polite">
+                <div id="bemerged-hover-title" class="bemerged-hover-title"></div>
+                <div id="bemerged-hover-description" class="bemerged-hover-description"></div>
+              </div>
+              <div id="bemerged-toast-stack" class="bemerged-toast-stack" aria-live="polite"></div>
+              <dialog id="bemerged-rules-dialog">
+                <h3>BeMerged — Player Guide</h3>
+                <p>BeMerged is a survival-merge puzzle game built around one goal: upgrade <strong>all 24 unique modules</strong> to <strong>5★ Ancestral</strong> before the board collapses under mines and bosses. Every turn is a mix of clearing space, upgrading pieces, dodging danger, and choosing the right loadout.</p>
+
+                <h3>Your Goal</h3>
+                <p>There are <strong>24 uniques</strong> in the game. Each one has its own upgrade path, and you must raise <strong>all 24</strong> to <strong>5★ Ancestral</strong> to win.</p>
+                <p>If a unique gets destroyed or falls too far behind, your entire run slows down—so protecting them is part of the challenge.</p>
+
+                <h3>Gameplay</h3>
+                <p>Each turn you can:</p>
+                <ul>
+                  <li>Swap modules to make <strong>shatter combos</strong> (3+ matching modules).</li>
+                  <li>Shatter to clear space and gain shards.</li>
+                  <li>Long-press a module to enter <strong>merge mode</strong> and upgrade it.</li>
+                  <li>Move uniques away from mines and bosses before they get trapped.</li>
+                  <li>Change your equipped uniques (only when no boss is on screen).</li>
+                </ul>
+                <p>The flow is: <strong>clear → merge → avoid hazards → repeat</strong>.</p>
+
+                <h3>Shattering</h3>
+                <p>A shatter combo is any horizontal or vertical match of <strong>three or more</strong> modules.</p>
+                <p>Shattering:</p>
+                <ul>
+                  <li>Clears space</li>
+                  <li>Gives you shards</li>
+                  <li>Causes the board to cascade</li>
+                  <li>Creates room for new modules to spawn (including potential uniques)</li>
+                </ul>
+                <p>Only shatter combos need to be aligned. Merges do not.</p>
+
+                <h3>Merging</h3>
+                <p>Merging is how you upgrade modules and progress your uniques.</p>
+
+                <h4>Merge mode</h4>
+                <ul>
+                  <li>Long-press any module to enter merge mode.</li>
+                  <li>All modules that can merge with it are highlighted.</li>
+                  <li>Tap any highlighted modules—anywhere on the board—to complete the merge.</li>
+                  <li>Merges do <strong>not</strong> require adjacency or alignment.</li>
+                  <li>Finish the merge by tapping the original module or the merge preview.</li>
+                </ul>
+
+                <h4>Merge rules</h4>
+                <ul>
+                  <li>A merge uses <strong>one base module</strong> plus <strong>fodder modules</strong>.</li>
+                  <li><strong>Common modules cannot be bases.</strong></li>
+                  <li>Fodders must match the base’s mod type and rarity.</li>
+                  <li>Regular modules stop at <strong>Legendary+</strong>.</li>
+                  <li>Only <strong>uniques</strong> can advance into Mythic, Mythic+, and Ancestral stars.</li>
+                  <li>Commons cannot be merged.</li>
+                </ul>
+                <p>Merging is the engine that pushes your 24 uniques toward the finish line.</p>
+
+                <h3>Bosses</h3>
+                <p>Bosses appear every 100 moves, gain more HP each wave, and now apply pressure every single player move.</p>
+
+                <h4>Boss behavior</h4>
+                <ul>
+                  <li>Before the boss moves, it samples <strong>exactly 5 of the 8 surrounding tiles uniformly at random</strong> and decays each sampled module by <strong>1 tier</strong>.</li>
+                  <li>Any <strong>Common</strong> module touching the boss is destroyed immediately.</li>
+                  <li>After decaying nearby tiles, the boss moves <strong>one step every player move</strong> along a deterministic shortest path toward the <strong>nearest unique</strong>.</li>
+                  <li>Every <strong>6 boss moves</strong>, it also bursts in <strong>radius 2</strong> and decays affected modules by <strong>2 tiers</strong>. Commons caught in the burst are removed.</li>
+                  <li>You can still kite the boss, but its movement and damage cadence are now far more predictable.</li>
+                </ul>
+
+                <h4>Boss combo mode</h4>
+                <ul>
+                  <li><strong>Long-press the boss</strong> to enter combo mode.</li>
+                  <li>Tap a module touching the boss to <strong>lock the combo type</strong>.</li>
+                  <li>All modules touching the boss are <strong>auto-included</strong> in the combo.</li>
+                  <li>Any mines adjacent to those touching modules are <strong>auto-included</strong> and their blast preview is folded into the displayed damage.</li>
+                  <li>Tap more modules of the locked type anywhere on the board to extend the combo, then tap the boss again to fire it.</li>
+                  <li>The preview damage is exact and deterministic for the current board state.</li>
+                </ul>
+
+                <h3>Mines</h3>
+                <ul>
+                  <li>Mines still spawn over time, block their tile, and explode when their timer expires.</li>
+                  <li><strong>Double-tap a mine</strong> to trigger it instantly. There is no longer a 2-or-4 sacrifice step.</li>
+                  <li>A triggered mine decays modules in its blast by <strong>2 tiers</strong>. Commons are removed.</li>
+                  <li>Mine explosions can contribute boss damage, and boss combo mode automatically includes linked mines next to touching boss modules.</li>
+                  <li><strong>SD</strong> now boosts mine spawn-rate control instead of changing boss timing.</li>
+                </ul>
+
+                <h3>Inventory</h3>
+                <p>Inventory is your <strong>active loadout</strong>. Equipped uniques grant their effects, and a <strong>5★ Ancestral</strong> unique now becomes a <strong>permanent effect</strong> when completed.</p>
+
+                <h4>Equipping</h4>
+                <ul>
+                  <li>Equipping a unique <strong>removes it from the board</strong> and places it safely in inventory.</li>
+                  <li>You can equip <strong>one of each type</strong>: Cannon, Armor, Generator, Core.</li>
+                  <li>To return a unique to the board, you must <strong>swap it with another unique of the same type</strong> that’s already on the board.</li>
+                  <li>When a unique reaches <strong>5★ Ancestral</strong>, its effect becomes permanent and that finished copy is removed from the board.</li>
+                </ul>
+
+                <h4>Restrictions</h4>
+                <ul>
+                  <li>You <strong>cannot swap uniques</strong> while a boss is alive.</li>
+                  <li>Any module <strong>adjacent to a boss or a mine cannot be moved, merged, or equipped</strong>.</li>
+                  <li>If a unique becomes adjacent to a hazard, it is effectively <strong>trapped</strong> until the hazard moves or explodes.</li>
+                </ul>
+                <p>Loadout timing and positioning are key to survival.</p>
+
+                <h3>Shards &amp; PF</h3>
+                <p>Shards come from shattering modules.</p>
+                <p>You can:</p>
+                <ul>
+                  <li><strong>Spend shards</strong> to increase the spawn chance of that module type.</li>
+                  <li><strong>Hold shards</strong> to power PF, which scales based on <strong>unspent shards</strong>.</li>
+                </ul>
+                <p>You’re constantly choosing between immediate consistency and long-term scaling.</p>
+
+                <h3>Unique Effects</h3>
+                <p>Uniques define your build. Their effects grow stronger as they rise through <strong>Epic → Legendary → Mythic → Ancestral</strong>.</p>
+
+                <h4>Cannons</h4>
+                <ul>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_cannon" data-icon-key="epic_ad" data-frame-key="mf_epic" role="img" aria-label="AD icon"></span><span class="rules-unique-acronym">AD</span> -</span> Rare+ modules deal <strong>+1 / +2 / +3 / +4</strong> extra boss hits.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_cannon" data-icon-key="epic_dp" data-frame-key="mf_epic" role="img" aria-label="DP icon"></span><span class="rules-unique-acronym">DP</span> -</span> <strong>1 / 2.5 / 5 / 7.5 / 10%</strong> chance to instantly kill a boss on spawn.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_cannon" data-icon-key="epic_ba" data-frame-key="mf_epic" role="img" aria-label="BA icon"></span><span class="rules-unique-acronym">BA</span> -</span> Each combo module has a <strong>5 / 10 / 15 / 25%</strong> chance to deal <strong>2×</strong> damage.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_cannon" data-icon-key="epic_hb" data-frame-key="mf_epic" role="img" aria-label="HB icon"></span><span class="rules-unique-acronym">HB</span> -</span> Boss loses <strong>1 / 2 / 3 / 5%</strong> max HP every 5 moves.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_cannon" data-icon-key="epic_sr" data-frame-key="mf_epic" role="img" aria-label="SR icon"></span><span class="rules-unique-acronym">SR</span> -</span> Bosses spawn with <strong>2.5 / 5 / 7.5 / 10%</strong> less HP.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_cannon" data-icon-key="epic_as" data-frame-key="mf_epic" role="img" aria-label="AS icon"></span><span class="rules-unique-acronym">AS</span> -</span> Boss combo damage gains <strong>15 / 30 / 45 / 60%</strong>.</li>
+                </ul>
+
+                <h4>Armors</h4>
+                <ul>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_armor" data-icon-key="epic_acp" data-frame-key="mf_epic" role="img" aria-label="ACP icon"></span><span class="rules-unique-acronym">ACP</span> -</span> Commons touching merges/combos auto-shatter; each one adds <strong>+1</strong> to boss combo.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_armor" data-icon-key="epic_sd" data-frame-key="mf_epic" role="img" aria-label="SD icon"></span><span class="rules-unique-acronym">SD</span> -</span> Stronger ranks improve mine spawn-rate control at <strong>10 / 20 / 30 / 40</strong>, and mines still have a <strong>15%</strong> reduced-radius roll.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_armor" data-icon-key="epic_nmp" data-frame-key="mf_epic" role="img" aria-label="NMP icon"></span><span class="rules-unique-acronym">NMP</span> -</span> Gain <strong>+3 / +5 / +7 / +9</strong> extra moves before the boss begins destroying modules.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_armor" data-icon-key="epic_wr" data-frame-key="mf_epic" role="img" aria-label="WR icon"></span><span class="rules-unique-acronym">WR</span> -</span> Mines destroy <strong>1 / 2 / 3 / 4</strong> fewer surrounding modules.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_armor" data-icon-key="epic_sf" data-frame-key="mf_epic" role="img" aria-label="SF icon"></span><span class="rules-unique-acronym">SF</span> -</span> Boss takes <strong>2 / 3 / 4 / 6</strong> extra hits for each Rare module destroyed in its blast.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_armor" data-icon-key="epic_oa" data-frame-key="mf_epic" role="img" aria-label="OA icon"></span><span class="rules-unique-acronym">OA</span> -</span> Rare modules next to merges have <strong>3 / 5 / 7 / 10%</strong> chance to promote to Rare+.</li>
+                </ul>
+
+                <h4>Generators</h4>
+                <ul>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_generator" data-icon-key="epic_bhd" data-frame-key="mf_epic" role="img" aria-label="BHD icon"></span><span class="rules-unique-acronym">BHD</span> -</span> <strong>2 / 4 / 6 / 8%</strong> chance for a unique Epic to spawn as Epic+.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_generator" data-icon-key="epic_sh" data-frame-key="mf_epic" role="img" aria-label="SH icon"></span><span class="rules-unique-acronym">SH</span> -</span> <strong>2 / 4 / 6 / 8%</strong> chance to gain <strong>2×</strong> shards from shattered modules.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_generator" data-icon-key="epic_ph" data-frame-key="mf_epic" role="img" aria-label="PH icon"></span><span class="rules-unique-acronym">PH</span> -</span> Rare/Epic drop rate increases by <strong>×1 / ×1.5 / ×2 / ×2.5%</strong> each move while the boss is alive; resets on boss death.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_generator" data-icon-key="epic_gc" data-frame-key="mf_epic" role="img" aria-label="GC icon"></span><span class="rules-unique-acronym">GC</span> -</span> Each merge or shatter combo of 4+ reduces timer by <strong>3 / 5 / 7 / 9s</strong>.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_generator" data-icon-key="epic_pf" data-frame-key="mf_epic" role="img" aria-label="PF icon"></span><span class="rules-unique-acronym">PF</span> -</span> Rare/Epic drop rate multiplied by <strong>log(1 / 2 / 3 / 4%)</strong> of <strong>unspent shards on hand</strong>.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_generator" data-icon-key="epic_rb" data-frame-key="mf_epic" role="img" aria-label="RB icon"></span><span class="rules-unique-acronym">RB</span> -</span> <strong>3 / 5 / 7 / 10%</strong> chance for one module destroyed by boss or mines to promote instead.</li>
+                </ul>
+
+                <h4>Cores</h4>
+                <ul>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_core" data-icon-key="epic_oc" data-frame-key="mf_epic" role="img" aria-label="OC icon"></span><span class="rules-unique-acronym">OC</span> -</span> Modules next to the boss have <strong>10%</strong> chance to deal <strong>+3 / +5 / +7 / +10</strong> extra hits.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_core" data-icon-key="epic_dc" data-frame-key="mf_epic" role="img" aria-label="DC icon"></span><span class="rules-unique-acronym">DC</span> -</span> Each boss combo adds <strong>+1 / +2 / +3 / +5</strong> stacks toward the next combo.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_core" data-icon-key="epic_hc" data-frame-key="mf_epic" role="img" aria-label="HC icon"></span><span class="rules-unique-acronym">HC</span> -</span> <strong>5 / 10 / 15 / 20%</strong> chance for boss/mines to miss one non-common module in their blast.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_core" data-icon-key="epic_mvn" data-frame-key="mf_epic" role="img" aria-label="MVN icon"></span><span class="rules-unique-acronym">MVN</span> -</span> Auto-shatter all common modules every <strong>25 / 20 / 15 / 10</strong> moves.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_core" data-icon-key="epic_mh" data-frame-key="mf_epic" role="img" aria-label="MH icon"></span><span class="rules-unique-acronym">MH</span> -</span> Mines move toward the boss every <strong>4 / 3 / 2 / 1</strong> moves.</li>
+                  <li><span class="rules-unique-label"><span class="rules-unique-icon" data-asset-dir="modules_core" data-icon-key="epic_pc" data-frame-key="mf_epic" role="img" aria-label="PC icon"></span><span class="rules-unique-acronym">PC</span> -</span> Boss loses <strong>1 / 2 / 3 / 4%</strong> max HP from the core combo effect.</li>
+                </ul>
+
+                <h3>Strategy Tips</h3>
+                <ul>
+                  <li>Keep your uniques safe—losing one slows everything.</li>
+                  <li>Equip the right uniques <strong>before</strong> a boss appears.</li>
+                  <li>Move uniques away from hazards early; trapped modules can’t be swapped.</li>
+                  <li>Use merge mode often—pull fodder from anywhere on the board.</li>
+                  <li>Decide whether to spend shards or save them for PF scaling.</li>
+                  <li>Kite bosses intentionally to control where destruction happens.</li>
+                </ul>
+
+                <h3>Leaderboard</h3>
+                <ul>
+                  <li>Time, number of 5★ uniques, moves, merges, and shards all contribute to your leaderboard score on win or restart.</li>
+                  <li>Using <strong>AI or Dev Tools</strong> during a run disqualifies it from leaderboard placement.</li>
+                </ul>
+
+                <h3>Feedback</h3>
+                <p>Use the reporting system or join the community on Discord to share your thoughts—we’d love to hear how to make the game even better.</p>
+                <p>Disclaimer: All visual assets, icons, and module designs used in BeMerged are the property of TechTreeGames. They are included for gameplay purposes only and are not used for personal profit outside of the Creator Code program.</p>
+                <button id="btn-rules-close" type="button">Close</button>
+              </dialog>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
