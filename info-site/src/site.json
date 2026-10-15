@@ -1,0 +1,54 @@
+{
+  "slug": "bemerged",
+  "playUrl": "https://tmrxjd.github.io/Bemerged/",
+  "title": "Bemerged",
+  "alias": "",
+  "accent": "#c5abff",
+  "genre": "Merge strategy",
+  "premise": "Make your next move count",
+  "summary": "Combine your pieces, plan your board, and turn small upgrades into powerful combinations. A Tower-inspired puzzle built around the next clever merge.",
+  "about": [
+    "Combine your pieces, plan your board, and turn small upgrades into powerful combinations. A Tower-inspired puzzle built around the next clever merge.",
+    "An independent mini game inspired by The Tower. Play the browser version, or explore the rest of Tower Arcade for another kind of challenge."
+  ],
+  "features": [
+    {
+      "title": "Combine pieces",
+      "text": "Turn matching pieces into stronger combinations."
+    },
+    {
+      "title": "Plan the board",
+      "text": "Leave room for the merges you want to make next."
+    },
+    {
+      "title": "Think ahead",
+      "text": "Build a strategy around the pieces available to you."
+    }
+  ],
+  "steps": [
+    {
+      "title": "Read the board",
+      "text": "Look for pieces you can combine."
+    },
+    {
+      "title": "Drag to merge",
+      "text": "Drag a piece onto a compatible piece to combine them."
+    },
+    {
+      "title": "Plan another move",
+      "text": "Consider the space and combinations your merge leaves behind."
+    }
+  ],
+  "controls": [
+    {
+      "input": "Game input",
+      "action": "Drag to merge · mouse or touch"
+    },
+    {
+      "input": "On-screen menus",
+      "action": "Use the game’s menus to start a run and see its available options."
+    }
+  ],
+  "availability": "Available to play in your browser on desktop and mobile. The Play button opens the game.",
+  "controlNote": "The game’s own controls and menus provide any additional bindings."
+}
